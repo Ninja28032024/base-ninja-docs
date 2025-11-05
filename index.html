@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base-Ninja Bot - Documentação</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #22d3ee;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f35 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,144C960,149,1056,139,1152,128C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        header .version {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        header .subtitle {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            opacity: 0.85;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+            background: rgba(34, 211, 238, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section */
+        section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
+        }
+
+        h2 {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        code {
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Command cards */
+        .command-card {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .command-card:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-left-width: 6px;
+            transform: translateX(4px);
+        }
+
+        .command-card h4 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+
+        .command-aliases {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--secondary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            font-weight: 600;
+        }
+
+        .command-usage {
+            background: var(--dark-bg);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            font-family: 'Courier New', monospace;
+            color: var(--success);
+            border: 1px solid var(--border-color);
+        }
+
+        .command-example {
+            background: rgba(34, 211, 238, 0.1);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            font-family: 'Courier New', monospace;
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Category badges */
+        .category-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Feature list */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            background: rgba(99, 102, 241, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+        }
+
+        .feature-item h4 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.6rem;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            background: rgba(34, 211, 238, 0.05);
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Highlight */
+        .highlight {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--primary-color);
+            margin: 1.5rem 0;
+        }
+
+        .highlight h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🥷 Base-Ninja Bot</h1>
+        <div class="version">Versão 1.0</div>
+        <div class="subtitle">Base para Bots de WhatsApp</div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#visao-geral">Visão Geral</a></li>
+            <li><a href="#estrutura">Estrutura</a></li>
+            <li><a href="#fluxo">Fluxo de Execução</a></li>
+            <li><a href="#moderacao">Moderação</a></li>
+            <li><a href="#ranking">Ranking</a></li>
+            <li><a href="#entretenimento">Entretenimento</a></li>
+            <li><a href="#comandos">Comandos</a></li>
+            <li><a href="#configuracao">Configuração</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Visão Geral -->
+        <section id="visao-geral">
+            <h2><span class="icon">📖</span>Visão Geral e Arquitetura</h2>
+            <p>O <strong>Base-Ninja Bot</strong> é um base modular para desenvolvimento de bots de WhatsApp, desenvolvido em Node.js, projetado para administrar e moderar grupos, além de oferecer uma vasta gama de funcionalidades de entretenimento e utilidade para os membros. Sua arquitetura é modular, permitindo a fácil adição e manutenção de comandos e sistemas.</p>
+            
+            <p>O bot utiliza a biblioteca <code>@whiskeysockets/baileys</code> para se conectar à API do WhatsApp, garantindo uma comunicação estável e eficiente. A persistência de dados, como configurações de grupos, rankings, advertências e outros, é realizada através de arquivos JSON armazenados localmente no diretório <code>banco de dados</code>, funcionando como um sistema de banco de dados simples e baseado em arquivos.</p>
+
+            <h3>Tecnologias Principais</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tecnologia</th>
+                        <th>Propósito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Node.js</strong></td>
+                        <td>Ambiente de execução para o bot.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>@whiskeysockets/baileys</strong></td>
+                        <td>Biblioteca principal para a conexão com o WhatsApp.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Axios</strong></td>
+                        <td>Cliente HTTP para realizar requisições a APIs externas (ex: GPT, upload de mídias).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chalk</strong></td>
+                        <td>Estilização de logs no console para melhor legibilidade.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fluent-ffmpeg</strong></td>
+                        <td>Manipulação e conversão de mídias (áudio e vídeo).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Moment-timezone</strong></td>
+                        <td>Gerenciamento de datas e fusos horários.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Node-cron</strong></td>
+                        <td>Agendamento de tarefas (cron jobs).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pino</strong></td>
+                        <td>Logger para registrar eventos e depurar o código.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Estrutura -->
+        <section id="estrutura">
+            <h2><span class="icon">📁</span>Estrutura de Arquivos e Diretórios</h2>
+            <p>A estrutura do projeto é organizada para separar a lógica principal, os comandos, as configurações e os dados.</p>
+            
+            <pre><code>base-ninja-bot/
+├── commands/             # Contém todos os arquivos de comandos individuais.
+├── banco de dados/       # Armazena os arquivos JSON que funcionam como banco de dados.
+│   ├── admin_status/     # (Exemplo) Status de administrador em grupos.
+│   ├── advertencias.json # Registros de advertências.
+│   └── ...               # Outros arquivos de configuração e dados.
+├── escanear/             # Módulos para monitoramento (ex: entrada de membros).
+│   └── scanner.js
+├── settings/             # Configurações e bibliotecas de suporte.
+│   ├── lib/              # Módulos de lógica de negócios (ranking, antilink, etc.).
+│   └── settings.json     # Configurações globais do bot (prefixo, dono, etc.).
+├── node_modules/         # Dependências do Node.js.
+├── main.js               # Ponto de entrada principal da aplicação.
+├── package.json          # Define os metadados do projeto e as dependências.
+└── start.sh              # Script de inicialização.</code></pre>
+        </section>
+
+        <!-- Fluxo de Execução -->
+        <section id="fluxo">
+            <h2><span class="icon">⚙️</span>Fluxo de Execução e Lógica Principal</h2>
+            <p>O arquivo <code>main.js</code> é o coração do bot. Ele é responsável por:</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>🔧 Inicialização</h4>
+                    <p>Carrega todas as dependências necessárias, lê e carrega todos os arquivos de comando do diretório <code>/commands</code> para um Map do JavaScript.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔌 Conexão</h4>
+                    <p>Inicializa a conexão com o WhatsApp usando <code>makeWASocket</code> e gerencia a autenticação via código de pareamento.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📨 Manipulação de Eventos</h4>
+                    <p>Monitora eventos como <code>connection.update</code>, <code>messages.upsert</code> e <code>group-participants.update</code>.</p>
+                </div>
+            </div>
+
+            <h3>Estrutura de um Comando</h3>
+            <p>Cada comando é um módulo Node.js que exporta um objeto com uma estrutura padronizada. Isso torna o bot extensível e fácil de manter.</p>
+
+            <blockquote>
+                Exemplo de um comando simples (<code>ping.js</code>):
+            </blockquote>
+
+            <pre><code>module.exports = {
+    name: 'ping',
+    aliases: [], // Apelidos para o comando
+    async execute({ lux, msg, from }) { // Função principal
+        const latencia = (Date.now() / 1000) - msg.messageTimestamp;
+        await lux.sendMessage(from, { 
+            text: `*Latência:* ${latencia.toFixed(3)} segundos` 
+        }, { quoted: msg });
+    }
+};</code></pre>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Propriedade</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>O nome principal do comando, usado para invocá-lo.</td>
+                    </tr>
+                    <tr>
+                        <td><code>aliases</code></td>
+                        <td>Uma lista de nomes alternativos (apelidos) para o mesmo comando.</td>
+                    </tr>
+                    <tr>
+                        <td><code>execute</code></td>
+                        <td>A função assíncrona que contém a lógica do comando. Recebe um objeto de contexto com todas as ferramentas e informações da mensagem.</td>
+                    </tr>
+                    <tr>
+                        <td><code>isKeyword</code></td>
+                        <td>(Opcional) Se <code>true</code>, o comando é acionado por uma palavra-chave específica, sem a necessidade de prefixo.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Moderação -->
+        <section id="moderacao">
+            <h2><span class="icon">🛡️</span>Sistema de Moderação</h2>
+            <p>Um dos pilares do Base-Ninja Bot é seu robusto sistema de moderação, projetado para manter a ordem e a segurança nos grupos.</p>
+
+            <h3>Anti-Link</h3>
+            <p>Este sistema permite diferentes níveis de restrição contra o envio de links no grupo. Cada comando ativa um nível de punição diferente, oferecendo flexibilidade para os administradores.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nível</th>
+                        <th>Comando</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><code>&anti-link</code></td>
+                        <td>Apaga a mensagem com o link.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><code>&anti-link2</code></td>
+                        <td>Aplica uma advertência ao usuário.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><code>&anti-link3</code></td>
+                        <td>Remove o usuário do grupo.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><code>&anti-link4</code></td>
+                        <td>Bane o usuário (remove permanentemente).</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><code>&anti-link5</code></td>
+                        <td>Silencia (muta) o usuário.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight">
+                <h3>Outros Sistemas de Moderação</h3>
+                <ul>
+                    <li><strong>Anti-Flood:</strong> Previne que usuários enviem um número excessivo de mensagens em um curto período.</li>
+                    <li><strong>Sistema de Advertências:</strong> Permite que administradores apliquem advertências formais. Acumular 3 advertências resulta em banimento.</li>
+                    <li><strong>Anti-Imagem:</strong> Impede o envio de imagens no grupo.</li>
+                    <li><strong>Sistema de Mute:</strong> Silencia membros por tempo determinado ou permanentemente.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Ranking -->
+        <section id="ranking">
+            <h2><span class="icon">🏆</span>Sistema de Ranking e Níveis</h2>
+            <p>O bot implementa um sistema de gamificação para incentivar a participação dos membros nos grupos, baseado em XP, pontos e patentes.</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>⚡ Ganho de XP</h4>
+                    <p>Os membros ganham XP ao interagir no grupo (enviando mensagens), com um cooldown de 2 minutos para evitar flood.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>💎 Conversão de XP</h4>
+                    <p>Ao atingir 100 XP, o XP acumulado é automaticamente convertido em Pontos (200 pontos por XP).</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎖️ Subir de Nível</h4>
+                    <p>Ao acumular 3000 pontos, o membro sobe de nível, alcançando uma nova patente. O bot anuncia a promoção no grupo.</p>
+                </div>
+            </div>
+
+            <h3>Hierarquia de Patentes</h3>
+            <div class="category-badge">Bronze I-III</div>
+            <div class="category-badge">Prata I-III</div>
+            <div class="category-badge">Platina I-III</div>
+            <div class="category-badge">Ouro I-III</div>
+            <div class="category-badge">Diamante I-III</div>
+            <div class="category-badge">Esmeralda I-III</div>
+            <div class="category-badge">Mestre I-III</div>
+            <div class="category-badge">Mestre de Honra</div>
+            <div class="category-badge">Lendário Místico</div>
+        </section>
+
+        <!-- Entretenimento -->
+        <section id="entretenimento">
+            <h2><span class="icon">🎮</span>Comandos de Entretenimento</h2>
+            <p>O bot oferece uma variedade de jogos e comandos interativos para engajar os membros do grupo.</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>🎯 Jogo da Velha</h4>
+                    <p>Permite que dois jogadores disputem uma partida de Jogo da Velha diretamente no chat do grupo.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎰 Cassino</h4>
+                    <p>Um jogo de caça-níqueis onde os usuários podem apostar pontos para tentar ganhar mais.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🪙 Cara ou Coroa</h4>
+                    <p>Aposta pontos em um jogo de cara ou coroa com chance de dobrar a aposta.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎲 Eu Nunca</h4>
+                    <p>Inicia uma rodada do jogo "Eu Nunca" com perguntas aleatórias do banco de dados.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comandos Completos -->
+        <section id="comandos">
+            <h2><span class="icon">📋</span>Lista Completa de Comandos (144 comandos)</h2>
+            
+            <h3>🔹 Comandos de Membros</h3>
+            
+            <div class="command-card">
+                <h4>&menu</h4>
+                <div>
+                    <span class="command-aliases">&m</span>
+                    <span class="command-aliases">&comandos</span>
+                </div>
+                <p>Exibe o menu principal do bot com todos os comandos disponíveis, informações sobre o bot e o ping atual.</p>
+                <div class="command-usage">Uso: &menu</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&ping</h4>
+                <p>Verifica a latência do bot, mostrando o tempo de resposta em segundos.</p>
+                <div class="command-usage">Uso: &ping</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&sticker / &s / &f</h4>
+                <div>
+                    <span class="command-aliases">&stk</span>
+                </div>
+                <p>Converte uma imagem, vídeo ou GIF em uma figurinha (sticker) do WhatsApp.</p>
+                <div class="command-usage">Uso: Envie uma imagem/vídeo e responda com &sticker</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&toimg</h4>
+                <p>Converte uma figurinha (sticker) de volta para uma imagem.</p>
+                <div class="command-usage">Uso: Responda a uma figurinha com &toimg</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&attp / &ttp</h4>
+                <p>Cria uma figurinha animada (&attp) ou estática (&ttp) a partir de um texto.</p>
+                <div class="command-usage">Uso: &attp <texto></div>
+                <div class="command-example">Exemplo: &attp Olá Mundo</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&somar / &multiplicar / &subtrair / &dividir</h4>
+                <p>Realiza operações matemáticas básicas entre dois números.</p>
+                <div class="command-usage">Uso: &somar <número1> <número2></div>
+                <div class="command-example">Exemplo: &somar 10 20 → Resultado: 30</div>
+            </div>
+
+            <h3>🔹 Comandos de Administração</h3>
+
+            <div class="command-card">
+                <h4>&ban</h4>
+                <div>
+                    <span class="command-aliases">&banir</span>
+                    <span class="command-aliases">&exilar</span>
+                    <span class="command-aliases">&xô</span>
+                </div>
+                <p>Remove um membro do grupo. O dono do bot não pode ser banido.</p>
+                <div class="command-usage">Uso: &ban @usuario ou responda a uma mensagem com &ban</div>
+                <div class="command-example">Exemplo: &ban @5511999999999</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&promover / &rebaixar</h4>
+                <div>
+                    <span class="command-aliases">&promote</span>
+                    <span class="command-aliases">&demote</span>
+                    <span class="command-aliases">&adm</span>
+                    <span class="command-aliases">&unadm</span>
+                </div>
+                <p>Promove um membro a administrador ou remove os privilégios de administrador.</p>
+                <div class="command-usage">Uso: &promover @usuario</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&marcar</h4>
+                <p>Marca todos os membros do grupo em uma mensagem.</p>
+                <div class="command-usage">Uso: &marcar <mensagem opcional></div>
+                <div class="command-example">Exemplo: &marcar Reunião importante!</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&grupo-a / &grupo-f</h4>
+                <div>
+                    <span class="command-aliases">&abrirgp</span>
+                    <span class="command-aliases">&fechargp</span>
+                    <span class="command-aliases">&gp-a</span>
+                    <span class="command-aliases">&gp-f</span>
+                </div>
+                <p>Abre ou fecha o grupo para que apenas administradores possam enviar mensagens.</p>
+                <div class="command-usage">Uso: &grupo-a (abrir) ou &grupo-f (fechar)</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&delete</h4>
+                <div>
+                    <span class="command-aliases">&d</span>
+                    <span class="command-aliases">&deletar</span>
+                </div>
+                <p>Apaga uma mensagem do grupo (responda à mensagem que deseja apagar).</p>
+                <div class="command-usage">Uso: Responda a uma mensagem com &delete</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&descgp / &nomegp / &fotogp</h4>
+                <p>Altera a descrição, nome ou foto de perfil do grupo.</p>
+                <div class="command-usage">Uso: &descgp <nova descrição></div>
+                <div class="command-example">Exemplo: &nomegp Grupo dos Amigos</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&linkgp / &redefinir-link</h4>
+                <p>Obtém o link de convite do grupo ou redefine o link (invalida o anterior).</p>
+                <div class="command-usage">Uso: &linkgp</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&temporizador-gp</h4>
+                <div>
+                    <span class="command-aliases">&fechar-gp</span>
+                    <span class="command-aliases">&fgp</span>
+                    <span class="command-aliases">&tempogp</span>
+                </div>
+                <p>Agenda o fechamento do grupo para um horário específico.</p>
+                <div class="command-usage">Uso: &temporizador-gp <horário></div>
+                <div class="command-example">Exemplo: &temporizador-gp 22:00</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&votacao</h4>
+                <p>Inicia uma votação no grupo com múltiplas opções.</p>
+                <div class="command-usage">Uso: &votacao <pergunta> | <opção1> | <opção2> | ...</div>
+                <div class="command-example">Exemplo: &votacao Qual a melhor pizza? | Calabresa | Mussarela | Portuguesa</div>
+            </div>
+
+            <h3>🔹 Comandos de Moderação</h3>
+
+            <div class="command-card">
+                <h4>&anti-link (Níveis 1-5)</h4>
+                <div>
+                    <span class="command-aliases">&antilink</span>
+                    <span class="command-aliases">&anti-link2</span>
+                    <span class="command-aliases">&anti-link3</span>
+                    <span class="command-aliases">&anti-link4</span>
+                    <span class="command-aliases">&anti-link5</span>
+                </div>
+                <p>Ativa ou desativa a proteção Anti-Link com diferentes níveis de punição (apagar, advertir, remover, banir, mutar).</p>
+                <div class="command-usage">Uso: &anti-link (para nível 1)</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&antiflood</h4>
+                <div>
+                    <span class="command-aliases">&anti-flood</span>
+                </div>
+                <p>Ativa ou desativa a proteção Anti-Flood (previne spam de mensagens).</p>
+                <div class="command-usage">Uso: &antiflood</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&antiimg</h4>
+                <p>Ativa ou desativa a proteção Anti-Imagem (impede o envio de imagens).</p>
+                <div class="command-usage">Uso: &antiimg</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&mute / &mute2 / &mute3</h4>
+                <div>
+                    <span class="command-aliases">&silenciar</span>
+                    <span class="command-aliases">&silenciar2</span>
+                    <span class="command-aliases">&silenciar3</span>
+                </div>
+                <p>Silencia um membro por um período determinado ou permanentemente.</p>
+                <div class="command-usage">Uso: &mute @usuario <tempo></div>
+                <div class="command-example">Exemplo: &mute @5511999999999 10m (silencia por 10 minutos)</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&desmute</h4>
+                <div>
+                    <span class="command-aliases">&libertar</span>
+                    <span class="command-aliases">&perdoar</span>
+                </div>
+                <p>Remove o silenciamento de um membro.</p>
+                <div class="command-usage">Uso: &desmute @usuario</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&advertir</h4>
+                <div>
+                    <span class="command-aliases">&adv</span>
+                </div>
+                <p>Aplica uma advertência formal a um membro. Ao atingir 3 advertências, o usuário é banido automaticamente.</p>
+                <div class="command-usage">Uso: &advertir @usuario <motivo></div>
+                <div class="command-example">Exemplo: &advertir @5511999999999 Desrespeito às regras</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&ver-advs / &remover-advs</h4>
+                <div>
+                    <span class="command-aliases">&checar-advs</span>
+                    <span class="command-aliases">&perdoar-advs</span>
+                </div>
+                <p>Consulta o número de advertências de um membro ou remove todas as advertências.</p>
+                <div class="command-usage">Uso: &ver-advs @usuario</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&bemvindo</h4>
+                <div>
+                    <span class="command-aliases">&welcome</span>
+                </div>
+                <p>Ativa ou desativa o sistema de boas-vindas para novos membros.</p>
+                <div class="command-usage">Uso: &bemvindo on ou &bemvindo off</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&legendabv</h4>
+                <div>
+                    <span class="command-aliases">&setwelcome</span>
+                </div>
+                <p>Define a mensagem de boas-vindas personalizada. Use @user para mencionar o novo membro e @grupo para o nome do grupo.</p>
+                <div class="command-usage">Uso: &legendabv <mensagem></div>
+                <div class="command-example">Exemplo: &legendabv Bem-vindo ao grupo, @user!</div>
+            </div>
+
+            <h3>🔹 Comandos de Ranking</h3>
+
+            <div class="command-card">
+                <h4>&level</h4>
+                <p>Consulta o nível, patente e pontos de um membro.</p>
+                <div class="command-usage">Uso: &level (seu próprio nível) ou &level @usuario</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&rank</h4>
+                <p>Exibe o ranking geral dos membros do grupo ordenado por pontuação.</p>
+                <div class="command-usage">Uso: &rank</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&xp-me</h4>
+                <p>Consulta seu XP atual acumulado.</p>
+                <div class="command-usage">Uso: &xp-me</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&add-pontos / &add-xp</h4>
+                <p>(Admin) Adiciona pontos ou XP manualmente a um membro.</p>
+                <div class="command-usage">Uso: &add-pontos @usuario <quantidade></div>
+                <div class="command-example">Exemplo: &add-pontos @5511999999999 500</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&converter-xp</h4>
+                <p>Converte seu XP acumulado em pontos seguindo a taxa de conversão configurada.</p>
+                <div class="command-usage">Uso: &converter-xp</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&toggle-rank</h4>
+                <div>
+                    <span class="command-aliases">&togglerank</span>
+                    <span class="command-aliases">&ligar-rank</span>
+                    <span class="command-aliases">&desligar-rank</span>
+                </div>
+                <p>Ativa ou desativa o sistema de ranking no grupo.</p>
+                <div class="command-usage">Uso: &toggle-rank</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&backup-level / &restaurarbckp-level</h4>
+                <p>(Admin) Cria um backup do sistema de ranking ou restaura a partir de um backup.</p>
+                <div class="command-usage">Uso: &backup-level</div>
+            </div>
+
+            <h3>🔹 Comandos de Jogos</h3>
+
+            <div class="command-card">
+                <h4>&velha</h4>
+                <div>
+                    <span class="command-aliases">&jogo-velha</span>
+                    <span class="command-aliases">&tictactoe</span>
+                    <span class="command-aliases">&jv</span>
+                </div>
+                <p>Inicia um jogo da velha contra outro jogador.</p>
+                <div class="command-usage">Uso: &velha @adversario</div>
+                <div class="command-example">Exemplo: &velha @5511999999999</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&velha-jogar</h4>
+                <p>Faz uma jogada no jogo da velha ativo.</p>
+                <div class="command-usage">Uso: &velha-jogar <número></div>
+                <div class="command-example">Exemplo: &velha-jogar 5 (joga na posição 5 do tabuleiro)</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&cancelarvelha</h4>
+                <p>Cancela o jogo da velha ativo sem declarar vencedor.</p>
+                <div class="command-usage">Uso: &cancelarvelha</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&cara-coroa</h4>
+                <p>Joga cara ou coroa apostando pontos. Se acertar, ganha o dobro; se errar, perde os pontos.</p>
+                <div class="command-usage">Uso: &cara-coroa <cara/coroa> <aposta></div>
+                <div class="command-example">Exemplo: &cara-coroa cara 100</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&cassino</h4>
+                <p>Joga no cassino (caça-níqueis) apostando pontos. Dependendo da combinação, pode ganhar múltiplos da aposta.</p>
+                <div class="command-usage">Uso: &cassino <aposta></div>
+                <div class="command-example">Exemplo: &cassino 50</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&eununca</h4>
+                <p>Inicia uma rodada do jogo "Eu Nunca" com perguntas aleatórias do banco de dados.</p>
+                <div class="command-usage">Uso: &eununca</div>
+            </div>
+
+            <h3>🔹 Comandos de Download e Mídia</h3>
+
+            <div class="command-card">
+                <h4>&mp3 / &play</h4>
+                <p>Baixa o áudio de um vídeo do YouTube a partir de um link ou termo de busca.</p>
+                <div class="command-usage">Uso: &mp3 <link ou termo de busca></div>
+                <div class="command-example">Exemplo: &mp3 Imagine Dragons - Believer</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&mp4 / &video</h4>
+                <p>Baixa um vídeo do YouTube a partir de um link ou termo de busca.</p>
+                <div class="command-usage">Uso: &mp4 <link ou termo></div>
+            </div>
+
+            <div class="command-card">
+                <h4>&igdl</h4>
+                <p>Baixa vídeos e fotos do Instagram.</p>
+                <div class="command-usage">Uso: &igdl <link do post></div>
+                <div class="command-example">Exemplo: &igdl https://www.instagram.com/p/...</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&mediafire-doc / &mega</h4>
+                <div>
+                    <span class="command-aliases">&mfd</span>
+                </div>
+                <p>Faz o download de arquivos do Mediafire ou MEGA.</p>
+                <div class="command-usage">Uso: &mediafire-doc <link></div>
+            </div>
+
+            <div class="command-card">
+                <h4>&tomp3</h4>
+                <p>Converte um vídeo em áudio MP3.</p>
+                <div class="command-usage">Uso: Envie um vídeo e responda com &tomp3</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&upload-catbox / &upload-drive</h4>
+                <p>Faz upload de uma mídia para o Catbox ou Google Drive e retorna o link.</p>
+                <div class="command-usage">Uso: Envie uma mídia e responda com &upload-catbox</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&izuko-edit-img</h4>
+                <div>
+                    <span class="command-aliases">&editimg</span>
+                    <span class="command-aliases">&iaedit</span>
+                </div>
+                <p>Edita uma imagem usando inteligência artificial com base em um prompt.</p>
+                <div class="command-usage">Uso: Envie uma imagem e responda com &izuko-edit-img <prompt></div>
+                <div class="command-example">Exemplo: &izuko-edit-img adicionar um chapéu</div>
+            </div>
+
+            <h3>🔹 Comandos do Dono</h3>
+
+            <div class="command-card">
+                <h4>&bot-on / &bot-off</h4>
+                <p>Ativa ou desativa o bot em um grupo específico.</p>
+                <div class="command-usage">Uso: &bot-on</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&restart</h4>
+                <p>Reinicia o bot, recarregando todas as configurações.</p>
+                <div class="command-usage">Uso: &restart</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&gpt-pv</h4>
+                <p>Conversa com uma IA (GPT) no privado.</p>
+                <div class="command-usage">Uso: &gpt-pv <mensagem></div>
+                <div class="command-example">Exemplo: &gpt-pv Qual é a capital da França?</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&setprefix / &revelar-prefixo</h4>
+                <p>Altera o prefixo dos comandos ou exibe o prefixo atual.</p>
+                <div class="command-usage">Uso: &setprefix <novo prefixo></div>
+                <div class="command-example">Exemplo: &setprefix !</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&entrargp</h4>
+                <p>Faz o bot entrar em um grupo através de um link de convite.</p>
+                <div class="command-usage">Uso: &entrargp <link></div>
+                <div class="command-example">Exemplo: &entrargp https://chat.whatsapp.com/...</div>
+            </div>
+
+            <div class="command-card">
+                <h4>&auto-sair</h4>
+                <p>Faz o bot sair automaticamente de grupos inativos.</p>
+                <div class="command-usage">Uso: &auto-sair</div>
+            </div>
+        </section>
+
+        <!-- Configuração -->
+        <section id="configuracao">
+            <h2><span class="icon">⚙️</span>Configuração e Customização</h2>
+            <p>O bot pode ser facilmente customizado através do arquivo <code>settings/settings.json</code> e de outros arquivos de configuração.</p>
+
+            <h3>settings.json</h3>
+            <p>Este é o arquivo de configuração principal, onde você pode definir os parâmetros essenciais do bot.</p>
+
+            <pre><code>{
+  "prefix": "&",
+  "ownerNumber": "SEU_NUMERO@lid",
+  "botLid": "NUMERO_DO_BOT@lid",
+  "nomeBot": "Izuko Privat",
+  "nomeDono": "Seu Nome",
+  "versao": "1.5"
+}</code></pre>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chave</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>prefix</code></td>
+                        <td>O caractere usado para invocar os comandos (ex: <code>&menu</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>ownerNumber</code></td>
+                        <td>O JID (ID do WhatsApp) do dono do bot. Garante acesso a comandos restritos.</td>
+                    </tr>
+                    <tr>
+                        <td><code>botLid</code></td>
+                        <td>O JID do próprio bot.</td>
+                    </tr>
+                    <tr>
+                        <td><code>nomeBot</code></td>
+                        <td>O nome do bot que aparecerá em mensagens como o menu.</td>
+                    </tr>
+                    <tr>
+                        <td><code>nomeDono</code></td>
+                        <td>O nome do dono que aparecerá em mensagens.</td>
+                    </tr>
+                    <tr>
+                        <td><code>versao</code></td>
+                        <td>A versão atual do bot.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight">
+                <h3>Adicionando e Modificando Comandos</h3>
+                <ul>
+                    <li><strong>Para adicionar um novo comando:</strong> Crie um novo arquivo <code>.js</code> na pasta <code>/commands</code> seguindo a estrutura de comando padrão.</li>
+                    <li><strong>Para modificar um comando existente:</strong> Edite o arquivo correspondente na pasta <code>/commands</code>.</li>
+                    <li><strong>Para adicionar imagens ou áudios ao menu:</strong> Adicione os arquivos nas pastas <code>banco de dados/menu img</code> e <code>banco de dados/audio menu</code>. O bot selecionará um aleatoriamente ao executar o comando <code>&menu</code>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Conclusão -->
+        <section>
+            <h2><span class="icon">✨</span>Conclusão</h2>
+            <p>O <strong>Base-Ninja Bot</strong> é uma solução poderosa e flexível para gerenciamento de grupos no WhatsApp. Sua arquitetura modular facilita a manutenção e a expansão com novas funcionalidades. A combinação de ferramentas de moderação, sistemas de engajamento e comandos de utilidade o torna um assistente completo para qualquer comunidade online.</p>
+            
+            <div class="highlight">
+                <h3>Principais Características</h3>
+                <ul>
+                    <li>✅ <strong>144 comandos funcionais</strong> organizados por categoria</li>
+                    <li>✅ <strong>Sistema de ranking</strong> com XP, pontos e 23 patentes</li>
+                    <li>✅ <strong>5 níveis de proteção Anti-Link</strong> configuráveis</li>
+                    <li>✅ <strong>Jogos interativos</strong> (Jogo da Velha, Cassino, Cara ou Coroa)</li>
+                    <li>✅ <strong>Sistema de advertências</strong> e moderação automatizada</li>
+                    <li>✅ <strong>Download de mídias</strong> de YouTube, Instagram e mais</li>
+                    <li>✅ <strong>Arquitetura modular</strong> fácil de expandir</li>
+                    <li>✅ <strong>Banco de dados JSON</strong> simples e eficiente</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>📄 <strong>Documentação Técnica - Base-Ninja Bot</strong></p>
+        <p>Gerado por Ninja Dev's & Izuko | 04 de Novembro de 2025</p>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop">
+        ↑
+    </div>
+
+    <script>
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
